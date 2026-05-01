@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width initial-scale=1.0">
+    <title>Coworker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">Coworker</div>
+        <ul class="nav-links">
+            <li><a href="#home" aria-current="page">Home</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h1>All Your Task at One Place</h1>
+        <div class="add-container">
+            <input type="text" id="taskInput" placeholder="Enter task">
+            <button id="addBtn" onclick="addTaskAction()">Add task</button>
+            <button id="clearAllBtn" onclick="clearAllAction()">Clear All</button>
+        </div>
+        <div id="msgArea"></div>
+        <br><br>
+        <h2>Recently Added</h2>
+        <button id="allTaskBtn">All</button>
+        <button id="completedTaskBtn">Completed</button>
+        <button id="pendingTaskBtn">Pending</button>
+        <br><br>
+        <div id="countTaskArea"></div>
+        <br>
+        <div id="taskListArea"></div>
+    </div>
+    <p style="text-align:center; color:gray;">
+        Built by Sahani
+    </p>
+
+    <script src="script.js">
+    </script>
+</body>
+
+</html>

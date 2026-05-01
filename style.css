@@ -1,0 +1,136 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #00030e;
+    margin: 32px;
+    padding: 20px;
+}
+
+.navbar {
+    display: flex;
+    color: white;
+    align-items: center;
+    padding: 0 20px;
+    background-color: transparent;
+}
+
+.logo {
+    flex: 1;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    flex: 2;
+    padding: 0;
+    color: white;
+}
+
+h1 {
+    text-align: center;
+    font-size: 60px;
+    color: #0d9488;
+}
+
+h2 {
+    text-align: left;
+    color: white;
+}
+
+input {
+    padding: 10px;
+    width: 40%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+}
+
+button {
+    padding: 8px 12px;
+    margin-left: 5px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #111111;
+    color: #ffffff;
+}
+
+#addBtn {
+    background: #02776d;
+}
+
+#clearAllBtn {
+    background: rgb(184, 4, 4);
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+#msgArea {
+    margin-top: 10px;
+    font-weight: bold;
+    ;
+}
+
+#taskListArea {
+    margin-top: 16px;
+}
+
+#taskListArea div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgb(20, 35, 54);
+    opacity: 0.80;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.add-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#taskListArea input {
+    width: 10%;
+}
+
+#taskListArea span {
+    flex: 1;
+    color: white;
+    font-weight: bold;
+}
+
+#taskListArea button {
+    background: rgb(0, 0, 0);
+    opacity: 0.60;
+    color: #faf3f3;
+    border-radius: 6px;
+}
+
+/* Filter buttons */
+#allTaskBtn,
+#completedTaskBtn,
+#pendingTaskBtn {
+    background: #ddd;
+    color: rgb(18, 2, 63);
+}
+
+.active-filter {
+    background: rgb(17, 73, 99) !important;
+    color: white !important;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+}
+
+#countTaskArea {
+    color: white;
+}
