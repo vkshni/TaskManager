@@ -10,8 +10,8 @@ const completedTaskBtn = document.getElementById("completedTaskBtn");
 const pendingTaskBtn = document.getElementById("pendingTaskBtn");
 
 let editingId = null;
-let currentFilter = "all";
 
+let currentFilter = JSON.parse(localStorage.getItem("currentFilter")) || 'all';
 let allTask = JSON.parse(localStorage.getItem("myTasks")) || [];
 
 const setActive = (btn) => {
@@ -20,11 +20,13 @@ const setActive = (btn) => {
 }
 
 
+
 // All filter
 allTaskBtn.onclick = () => {
     currentFilter = "all";
     setActive(allTaskBtn);
     applyFilter();
+    localStorage.setItem("currentFilter", JSON.stringify(currentFilter));
 };
 
 // Completed
@@ -32,6 +34,7 @@ completedTaskBtn.onclick = () => {
     currentFilter = "completed";
     setActive(completedTaskBtn);
     applyFilter();
+    localStorage.setItem("currentFilter", JSON.stringify(currentFilter));
 };
 
 // Pending
@@ -39,11 +42,13 @@ pendingTaskBtn.onclick = () => {
     currentFilter = "pending";
     setActive(pendingTaskBtn);
     applyFilter();
+    localStorage.setItem("currentFilter", JSON.stringify(currentFilter));
 }
 
 // Apply filter
 const applyFilter = () => {
     if (currentFilter === "completed") {
+        setActive(completedTaskBtn);
         const completed = allTask.filter(t => t.done === true);
         if (completed.length === 0) {
             taskListArea.innerHTML = "<p>No completed tasks</p>";
@@ -52,6 +57,7 @@ const applyFilter = () => {
         countTaskArea.innerText = `Total completed tasks: ${completed.length}`;
         renderTasks(completed);
     } else if (currentFilter === "pending") {
+        setActive(pendingTaskBtn);
         const pending = allTask.filter(t => t.done === false);
         if (pending.length === 0) {
             taskListArea.innerHTML = "<p>No pending tasks</p>";
@@ -60,6 +66,7 @@ const applyFilter = () => {
         countTaskArea.innerText = `Total pending tasks: ${pending.length}`;
         renderTasks(pending);
     } else {
+        setActive(allTaskBtn);
         countTaskArea.innerText = `Total tasks: ${allTask.length}`;
         allTask.length === 0 ? taskListArea.innerHTML = "<p>No tasks added</p>" :
             renderTasks(allTask);
@@ -71,46 +78,50 @@ const applyFilter = () => {
 
 const renderTasks = (arr) => {
     taskListArea.innerHTML = "";
-    arr.forEach((task) => {
-        const taskBox = document.createElement("div");
-        const taskName = document.createElement("span");
-        const delBtn = document.createElement("button");
-        const checkBox = document.createElement("input");
-        const editBtn = document.createElement("button");
+    if (arr.length === 0) {
+        taskListArea.innerHTML = "<p>✨ No tasks yet. Start adding!</p>";
+    } else {
+        arr.forEach((task) => {
+            const taskBox = document.createElement("div");
+            const taskName = document.createElement("span");
+            const delBtn = document.createElement("button");
+            const checkBox = document.createElement("input");
+            const editBtn = document.createElement("button");
 
-        checkBox.type = "checkbox";
-        checkBox.checked = task.done;
+            checkBox.type = "checkbox";
+            checkBox.checked = task.done;
 
-        checkBox.addEventListener('change', function () {
-            task.done = this.checked;
-            localStorage.setItem("myTasks", JSON.stringify(allTask));
-            applyFilter();
-            showMsg(task.done ? "Marked done" : "Marked undone", "green");
+            checkBox.addEventListener('change', function () {
+                task.done = this.checked;
+                localStorage.setItem("myTasks", JSON.stringify(allTask));
+                applyFilter();
+                showMsg(task.done ? "Marked done" : "Marked undone", "green");
+            });
+
+            if (task.done) {
+                taskName.style.textDecoration = "line-through";
+                taskName.style.opacity = "0.6";
+            } else {
+                taskName.style.textDecoration = "none";
+                taskName.style.opacity = "1";
+            };
+
+            // editButton
+            editBtn.innerText = "Edit";
+            editBtn.onclick = () => {
+                addBtn.innerText = "Save";
+                taskInput.value = task.text
+                editingId = task.id;
+            };
+
+            taskName.innerText = task.text + " ";
+            delBtn.innerText = "❌";
+
+            delBtn.onclick = () => deleteTask(task.id);
+            taskBox.append(checkBox, taskName, delBtn, editBtn);
+            taskListArea.appendChild(taskBox);
         });
-
-        if (task.done) {
-            taskName.style.textDecoration = "line-through";
-            taskName.style.opacity = "0.6";
-        } else {
-            taskName.style.textDecoration = "none";
-            taskName.style.opacity = "1";
-        };
-
-        // editButton
-        editBtn.innerText = "Edit";
-        editBtn.onclick = () => {
-            addBtn.innerText = "Save";
-            taskInput.value = task.text
-            editingId = task.id;
-        };
-
-        taskName.innerText = task.text + " ";
-        delBtn.innerText = "❌";
-
-        delBtn.onclick = () => deleteTask(task.id);
-        taskBox.append(checkBox, taskName, delBtn, editBtn);
-        taskListArea.appendChild(taskBox);
-    });
+    }
 };
 
 const saveAndRender = () => {
