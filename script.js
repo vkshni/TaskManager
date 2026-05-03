@@ -11,7 +11,7 @@ const pendingTaskBtn = document.getElementById("pendingTaskBtn");
 
 let editingId = null;
 
-let currentFilter = JSON.parse(localStorage.getItem("currentFilter")) || 'all';
+let currentFilter = localStorage.getItem("currentFilter") || 'all';
 let allTask = JSON.parse(localStorage.getItem("myTasks")) || [];
 
 const setActive = (btn) => {
@@ -20,13 +20,12 @@ const setActive = (btn) => {
 }
 
 
-
 // All filter
 allTaskBtn.onclick = () => {
     currentFilter = "all";
     setActive(allTaskBtn);
     applyFilter();
-    localStorage.setItem("currentFilter", JSON.stringify(currentFilter));
+    localStorage.setItem("currentFilter", currentFilter);
 };
 
 // Completed
@@ -34,7 +33,7 @@ completedTaskBtn.onclick = () => {
     currentFilter = "completed";
     setActive(completedTaskBtn);
     applyFilter();
-    localStorage.setItem("currentFilter", JSON.stringify(currentFilter));
+    localStorage.setItem("currentFilter", currentFilter);
 };
 
 // Pending
@@ -42,7 +41,7 @@ pendingTaskBtn.onclick = () => {
     currentFilter = "pending";
     setActive(pendingTaskBtn);
     applyFilter();
-    localStorage.setItem("currentFilter", JSON.stringify(currentFilter));
+    localStorage.setItem("currentFilter", currentFilter);
 }
 
 // Apply filter
@@ -50,26 +49,25 @@ const applyFilter = () => {
     if (currentFilter === "completed") {
         setActive(completedTaskBtn);
         const completed = allTask.filter(t => t.done === true);
-        if (completed.length === 0) {
-            taskListArea.innerHTML = "<p>No completed tasks</p>";
-            return;
-        };
+        // if (completed.length === 0) {
+        //     taskListArea.innerHTML = "<p>No completed tasks</p>";
+        //     return;
+        // };
         countTaskArea.innerText = `Total completed tasks: ${completed.length}`;
         renderTasks(completed);
     } else if (currentFilter === "pending") {
         setActive(pendingTaskBtn);
         const pending = allTask.filter(t => t.done === false);
-        if (pending.length === 0) {
-            taskListArea.innerHTML = "<p>No pending tasks</p>";
-            return;
-        };
+        // if (pending.length === 0) {
+        //     taskListArea.innerHTML = "<p>No pending tasks</p>";
+        //     return;
+        // };
         countTaskArea.innerText = `Total pending tasks: ${pending.length}`;
         renderTasks(pending);
     } else {
         setActive(allTaskBtn);
         countTaskArea.innerText = `Total tasks: ${allTask.length}`;
-        allTask.length === 0 ? taskListArea.innerHTML = "<p>No tasks added</p>" :
-            renderTasks(allTask);
+        renderTasks(allTask);
     }
 }
 
@@ -93,8 +91,7 @@ const renderTasks = (arr) => {
 
             checkBox.addEventListener('change', function () {
                 task.done = this.checked;
-                localStorage.setItem("myTasks", JSON.stringify(allTask));
-                applyFilter();
+                saveAndRender();
                 showMsg(task.done ? "Marked done" : "Marked undone", "green");
             });
 
@@ -135,6 +132,8 @@ taskInput.addEventListener("keydown", (event) => {
         addTaskAction();
     }
 })
+
+addBtn.onclick = () => addTaskAction();
 
 // Disable add button
 taskInput.addEventListener("input", () => {

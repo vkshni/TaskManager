@@ -105,6 +105,11 @@ button:hover {
     width: 10%;
 }
 
+#taskListArea p {
+    color: rgb(184, 212, 21);
+    font-size: large;
+}
+
 #taskListArea span {
     flex: 1;
     color: white;
